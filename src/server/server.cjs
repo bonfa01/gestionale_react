@@ -26,10 +26,6 @@ db.connect((err) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-/* ------------------------------------------
-   CRUD LAVORATORI
------------------------------------------- */
-
 // Crea lavoratore
 app.post('/api/lavoratori', (req, res) => {
   const {
@@ -107,9 +103,6 @@ app.delete('/api/lavoratori/:id', (req, res) => {
   });
 });
 
-/* ------------------------------------------
-   CRUD EVENTI
------------------------------------------- */
 
 // Crea evento e genera giorni
 app.post('/api/eventi', (req, res) => {
@@ -189,10 +182,23 @@ app.get('/api/eventi/:id/giorni', (req, res) => {
   );
 });
 
-/* ------------------------------------------
-   AVVIO SERVER
------------------------------------------- */
+// Recupera un evento specifico
+app.get('/api/eventi/:id', (req, res) => {
+  const eventoId = req.params.id;
 
+  db.query('SELECT * FROM eventi WHERE id = ?', [eventoId], (err, results) => {
+    if (err) {
+      console.error('❌ Errore nel recupero evento:', err);
+      return res.status(500).json({ message: 'Errore nel recupero evento' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'Evento non trovato' });
+    }
+    res.json(results[0]);
+  });
+});
+
+//avvio server
 app.listen(PORT, () => {
   console.log(`🚀 Server avviato su http://localhost:${PORT}`);
 });

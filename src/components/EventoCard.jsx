@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserTie, faCalendarAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 const EventoCard = ({ evento, onApri, onElimina }) => {
+  const navigate = useNavigate();
   return (
     <div className="bg-white shadow-md rounded-lg p-4 mb-4 border hover:border-red-400 transition-all flex flex-col justify-between h-full">
       <div>
@@ -16,9 +18,9 @@ const EventoCard = ({ evento, onApri, onElimina }) => {
         </p>
       </div>
       <div className="flex justify-between mt-4">
-        <button
+      <button
           className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-          onClick={() => onApri(evento)}
+          onClick={() => navigate(`/eventi/${evento.id}`)}
         >
           Apri evento
         </button>

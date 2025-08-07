@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import ListaLavoratori from './pages/ListaLavoratori';
 import NuovoEvento from './pages/NuovoEvento';
 import ListaEventi from './pages/ListaEventi';
+import DettaglioEvento from "./pages/DettaglioEvento";
+
 
 import { useState } from 'react';
 
@@ -31,6 +33,7 @@ function App() {
             <Route path="/ListaLavoratori" element={<ListaLavoratori />} />
             <Route path="/NuovoEvento" element={<NuovoEvento />} />
             <Route path="/ListaEventi" element={<ListaEventi />} />
+            <Route path="/eventi/:id" element={<DettaglioEvento />} />
           </Routes>
         </div>
       </div>
