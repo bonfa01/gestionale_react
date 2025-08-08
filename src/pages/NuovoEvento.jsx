@@ -43,7 +43,7 @@ const NuovoEvento = () => {
   };
 
   return (
-    <div className="w-screen px-8 py-10 bg-white min-h-screen transition-[margin-left] duration-300 ease-in-out">
+    <div className=" mt-4 min-w-4xl bg-white min-h-screen transition-[margin-left] duration-300 ease-in-out">
       <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
         <i className="fas fa-calendar-alt text-red-700 mr-2"></i> Nuovo Evento
       </h1>

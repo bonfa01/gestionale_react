@@ -82,12 +82,12 @@ const NuovoLavoratore = () => {
   );
 
   return (
-    <div className="w-screen px-8 py-10 bg-white min-h-screen transition-[margin-left] duration-300 ease-in-out">
+    <div className="mt-2 w-max bg-white min-h-screen transition-[margin-left] duration-300 ease-in-out">
       <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
         <i className="fas fa-user-plus text-red-700 mr-2"></i> Nuovo Lavoratore
       </h1>
 
-      <div className="bg-white rounded-xl shadow-lg p-8 transition-all duration-300 max-w-7xl mx-auto">
+      <div className="bg-white rounded-xl  p-8 transition-all duration-300 max-w-7xl mx-auto">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
 
           {/* Sezione dati personali */}
@@ -101,7 +101,7 @@ const NuovoLavoratore = () => {
           </div>
 
           {/* Sezione documenti */}
-          <div className="border-t border-gray-200 pt-8">
+          <div className="border-t border-gray-300 pt-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               <i className="fas fa-file-alt text-red-700 mr-2"></i> Documenti
             </h3>
@@ -114,7 +114,7 @@ const NuovoLavoratore = () => {
           </div>
 
           {/* Sezione residenza */}
-          <div className="border-t border-gray-200 pt-8">
+          <div className="border-t border-gray-300 pt-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               <i className="fas fa-home text-red-700 mr-2"></i> Residenza
             </h3>

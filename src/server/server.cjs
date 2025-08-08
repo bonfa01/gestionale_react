@@ -107,7 +107,6 @@ app.delete('/api/lavoratori/:id', (req, res) => {
 // Crea evento e genera giorni
 app.post('/api/eventi', (req, res) => {
   const { nomeEvento, descrizione, cliente, dataInizio, dataFine } = req.body;
-
   const query = `
     INSERT INTO eventi (nome_evento, descrizione, cliente, data_inizio, data_fine)
     VALUES (?, ?, ?, ?, ?)
@@ -134,7 +133,7 @@ app.post('/api/eventi', (req, res) => {
         giorni.push([eventoId, formatted]);
         current.setDate(current.getDate() + 1);
       }
-
+      
       db.query(
         'INSERT INTO giorni_evento (evento_id, data) VALUES ?',
         [giorni],
@@ -197,6 +196,61 @@ app.get('/api/eventi/:id', (req, res) => {
     res.json(results[0]);
   });
 });
+
+  //Elimina l'evento dal database
+app.delete('/api/eventi/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('DELETE FROM eventi WHERE id = ?', [id], (err, result) => {
+    if (err) {
+      console.error('Errore eliminazione:', err);
+      return res.status(500).json({ error: 'Errore server' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Evento non trovato' });
+    }
+    res.status(200).json({ message: 'Evento eliminato' });
+  });
+});
+
+// Crea postazione per un evento
+app.post('/api/eventi/:eventoId/postazioni', async (req, res) => {
+  const { eventoId } = req.params;
+  const { nome, descrizione } = req.body;
+
+  await db.query('INSERT INTO postazioni (evento_id, nome, descrizione) VALUES (?, ?, ?)', 
+    [eventoId, nome, descrizione]);
+
+  res.status(201).json({ message: 'Postazione creata' });
+});
+
+// Recupera postazioni di un evento
+app.post('/giorni/:giornoId/postazioni/:postazioneId/assegna', async (req, res) => {
+  const { giornoId, postazioneId } = req.params;
+  const { lavoratore_id, ruolo } = req.body;
+
+  await db.query(`
+    INSERT INTO assegnazioni_postazioni (postazione_id, lavoratore_id, giorno_id, ruolo)
+    VALUES (?, ?, ?, ?)`, [postazioneId, lavoratore_id, giornoId, ruolo]);
+
+  res.status(201).json({ message: 'Lavoratore assegnato' });
+});
+
+// Recupera le postazioni di un evento
+app.get('/eventi/:eventoId/postazioni', async (req, res) => {
+  const { eventoId } = req.params;
+
+  try {
+    const [postazioni] = await db.query(
+      'SELECT * FROM postazioni WHERE evento_id = ?',
+      [eventoId]
+    );
+    res.json(postazioni);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Errore durante il recupero delle postazioni' });
+  }
+});
+
 
 //avvio server
 app.listen(PORT, () => {
